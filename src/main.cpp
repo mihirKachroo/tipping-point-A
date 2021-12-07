@@ -1,4 +1,8 @@
 #include "main.h"
+#include "tracking.h"
+#include "globals.h"
+
+bool* showStats = new bool(true);
 
 /**
  * A callback function for LLEMU's center button.
@@ -7,12 +11,28 @@
  * "I was pressed!" and nothing.
  */
 void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
+	// static bool pressed = false;
+	// pressed = !pressed;
+	// if (pressed) {
+	// 	pros::lcd::set_text(2, "I was pressed!");
+	// } else {
+	// 	pros::lcd::clear_line(2);
+	// }
+	// display.logMessage("Hello world!");
+}
+
+/**
+ * Statistics display mode update function
+*/
+void displayStatsUpdateTask(void* param) {
+	while (true) {
+		// Only show stats if asked
+		if (*showStats) {
+			display.setMode(STATS);
+		}
+
+		// Not very high priority
+		pros::delay(85);
 	}
 }
 
@@ -23,10 +43,16 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	// pros::lcd::initialize();
+	// pros::lcd::set_text(1, "Hello PROS User!");
 
-	pros::lcd::register_btn1_cb(on_center_button);
+	// pros::lcd::register_btn1_cb(on_center_button);
+
+	// Set mode to debug
+	// display.setMode(DEBUG);
+	
+	// Statistics display mode update
+	//pros::Task my_task(displayStatsUpdateTask, NULL, "Statistics Display Mode");
 }
 
 /**
@@ -38,14 +64,18 @@ void disabled() {}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
+ * Management System or the VEX Compet	ition Switch. This is intended for
  * competition-specific initialization routines, such as an autonomous selector
  * on the LCD.
  *
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+	// Enable auton selecton
+	display.setMode(SELECTOR);
+	*showStats = true;
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -59,12 +89,8 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	pros::Motor left_mtr(7);
-	pros::Motor right_mtr(2);
-
-	right_mtr.move(127);
-	pros::delay(2000);
-	right_mtr.move(0);
+	*showStats = true;
+	myAuton();
 }
 
 /**
@@ -81,38 +107,6 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
-	pros::Motor other(11);
-
-	while (true) {
-		int forward = master.get_analog(ANALOG_LEFT_Y);
-		int turn = master.get_analog(ANALOG_RIGHT_X);
-		bool up = master.get_digital(DIGITAL_UP);
-		bool down = master.get_digital(DIGITAL_DOWN);
-
-		
-
-		if(forward!=0){
-			left_mtr.move(forward);
-			right_mtr.move(forward);
-		}
-		else{
-			//right is clockwise, left is CCW
-			left_mtr.move(turn);
-			right_mtr.move(-1*turn);
-		}
-
-		if(up){
-			other.move(127);
-		}
-		else if(down){
-			other.move(-127);
-		}
-		else{
-			other.move(0);
-		}
-		pros::delay(20);
-	}
+	*showStats = true;
+	myOpControl();
 }
