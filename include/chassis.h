@@ -13,7 +13,7 @@
 
 // Motor pin numbers
 #define TL_PORT 1
-#define TR_PORT 10
+#define TR_PORT 9
 #define BL_PORT 11
 #define BR_PORT 20
 
