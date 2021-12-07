@@ -32,13 +32,13 @@ void myOpControl() {
 
         driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
-        // Intake mapped to right shoulder buttons
-        int intakeUp = masterController.get_digital(DIGITAL_R1);
-        int intakeDown = masterController.get_digital(DIGITAL_R2);
+        // Intake mapped to right joystick
+        int intakeSpeed = masterController.get_analog(ANALOG_RIGHT_Y);
 
-        // Forklift mapped to right joystick Y value (forward is down, back is up)
-        int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
-       
+        // Forklift mapped to left shoulder buttons
+        int forkliftUp = masterController.get_digital(DIGITAL_L1);
+        int forkliftDown = masterController.get_digital(DIGITAL_L2);
+
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
 
@@ -73,20 +73,8 @@ void myOpControl() {
             case 0: {
                 // Operator control
                 intake.control();
-                
-                // Note: value will most likely change
-                int intakeSpeed = 70;
 
-                if (intakeUp) {
-                    intake.setPower(intakeSpeed);
-                }
-                else if (intakeDown) {
-                    intake.setPower(-(intakeSpeed));
-                }
-                else {
-                    intake.setPower(0);
-                }
-                break;
+                intake.setPower(intakeSpeed);
             }
             default: {
                 break;
@@ -97,9 +85,17 @@ void myOpControl() {
         // Forklift control
         forklift.control();
         
-        // Forklift power set to forkliftSpeed from right joystick value 
-        forklift.setPower(joystickCubicDrive(forkliftSpeed));
+        int forkliftSpeed = 127;
 
+        if (forkliftUp) {
+            forklift.setPower(forkliftSpeed);
+        }
+        else if (forkliftDown) {
+            forklift.setPower(-forkliftSpeed);
+        }
+        else {
+            forklift.setPower(0);
+        }
         // Run update funcs on sysmans
         forklift.update();
 
