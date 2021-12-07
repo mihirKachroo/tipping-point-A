@@ -32,12 +32,12 @@ void myOpControl() {
 
         driveTrain->arcade(joystickCubicDrive(forward), joystickCubicDrive(sideways), 0);
 
-        // Intake mapped to right joystick
-        int intakeSpeed = masterController.get_analog(ANALOG_RIGHT_Y);
+        // Intake mapped to right shoulder buttons
+        int intakeUp = masterController.get_digital(DIGITAL_R1);
+        int intakeDown = masterController.get_digital(DIGITAL_R2);
 
-        // Forklift mapped to left shoulder buttons
-        int forkliftUp = masterController.get_digital(DIGITAL_L1);
-        int forkliftDown = masterController.get_digital(DIGITAL_L2);
+        // Forklift mapped to right joystick
+        int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
 
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
@@ -74,7 +74,18 @@ void myOpControl() {
                 // Operator control
                 intake.control();
 
-                intake.setPower(intakeSpeed);
+                //TODO: Update value 
+                int intakeSpeed = 100;
+
+                if (intakeUp) {
+                    intake.setPower(intakeSpeed);
+                }
+                else if (intakeDown) {
+                    intake.setPower(-(intakeSpeed));
+                }
+                else {
+                    intake.setPower(0);
+                }
             }
             default: {
                 break;
@@ -84,18 +95,9 @@ void myOpControl() {
 
         // Forklift control
         forklift.control();
-        
-        int forkliftSpeed = 127;
 
-        if (forkliftUp) {
-            forklift.setPower(forkliftSpeed);
-        }
-        else if (forkliftDown) {
-            forklift.setPower(-forkliftSpeed);
-        }
-        else {
-            forklift.setPower(0);
-        }
+        forklift.setPower(forkliftSpeed);
+
         // Run update funcs on sysmans
         forklift.update();
 
