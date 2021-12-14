@@ -35,6 +35,8 @@ extern pros::ADIEncoder bEnc; // Back encoder
 extern pros::ADIEncoder lEnc; // Left encoder
 extern pros::ADIEncoder rEnc; // Right encoder
 
+extern pros::ADIEncoder forkliftEnc; // Forklift encoder
+
 // System Managers
 extern Intake intake;
 

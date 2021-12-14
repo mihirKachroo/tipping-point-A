@@ -13,13 +13,14 @@ PIDInfo::PIDInfo(double p, double i, double d) {
 };
 
 
-PIDController::PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance) {
+PIDController::PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance/*bool useTolerance*/) {
     // Set local variables to object vars
     this->target = target;
     this->lastError = DBL_MAX;
     this->constants = constants;
     this->tolerance = tolerance;
     this->integralTolerance = integralTolerance;
+    this->useTolerance = useTolerance;
 }
 
 double PIDController::step(double newSense) {
@@ -52,7 +53,7 @@ double PIDController::step(double newSense) {
     this->speed = (this->constants.p * this->error) + (this->constants.i * integral) + (this->constants.d * derivative);
 
     // Start settling if error falls under tolerance
-    if (abs(this->error) <= this->tolerance) {
+    if (abs(this->error) <= this->tolerance /*&& this->useTolerance*/) {
         // Start timer if it wasn't already settling
         if (!this->settling) {
             this->settleStart = pros::millis();

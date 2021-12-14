@@ -63,6 +63,8 @@ class PIDController {
 
         PIDInfo constants; // PID gain constants
 
+        bool useTolerance;
+
     public:
         /**
          * The current target value for the controller
@@ -76,7 +78,7 @@ class PIDController {
          * @param tolerance Tolerance value for error until controller settles
          * @param integralTolerance Integral tolerance value for integral threshold
         */
-        PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance);
+        PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance/*bool useTolerance=true*/);
 
         /**
          * Run a step of PID calculations given new sensor data

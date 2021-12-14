@@ -2,6 +2,7 @@
  * Implementation for the Forklift system manager.
 */
 
+#include "globals.h"
 #include "systems/forklift.h"
 #include "systems/systemManager.h"
 
@@ -10,7 +11,7 @@ Forklift::Forklift(uint8_t defaultState, pros::Motor* Forkliftmotor, PIDInfo con
     this->forkliftMotor = Forkliftmotor;
 
     this->constants = constants;
-    this->pidController = new PIDController(0, this->constants, 10, 1);
+    this->pidController = new PIDController(0, this->constants, 10, 1/*false*/);
 
     Forkliftmotor->set_brake_mode(MOTOR_BRAKE_HOLD);
 }
@@ -40,11 +41,12 @@ void Forklift::setPower(int power) {
 void Forklift::update() {
     if (manualPower == 0) {
         // Retain position if manual power not being applied with custom PID loop
-        double speed = pidController->step(this->forkliftMotor->get_position());
+        double speed = pidController->step(this->forkliftMotor->get_position()/*forkliftEnc.get_value()*/);
         this->forkliftMotor->move(speed);
+        printf("Retaining power...\n");
     } else {
         // Update target to be current position
-        this->pidController->target = this->forkliftMotor->get_position();
+        this->pidController->target = this->forkliftMotor->get_position()/*forkliftEnc.get_value()*/;
     }
 }
 
@@ -77,7 +79,7 @@ bool Forklift::changeState(uint8_t newState) {
         }
         case DISABLED_STATE: {
             // Stop motors & leave limp
-            this->forkliftMotor->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            this->forkliftMotor->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
             this->forkliftMotor = 0;
             break;
         }

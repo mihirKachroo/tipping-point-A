@@ -1,11 +1,11 @@
 /**
  * \file chassis.h
- * 
+ *
  * \brief Contains definition macros such as pin numbers.
- * 
+ *
  * Contains definition macros such as pin numbers for a variety of
  * components (ex. motors, encoders) and dimensions.
-*/
+ */
 
 #pragma once
 
@@ -25,9 +25,13 @@
 #define LENC_PORT_TOP 6
 #define RENC_PORT_TOP 7
 
+#define FORKLIFT_PORT_TOP 'G'
+
 #define BENC_PORT_BOT 8
 #define LENC_PORT_BOT 9
 #define RENC_PORT_BOT 10
+
+#define FORKLIFT_PORT_BOT 'H'
 
 // Robot dimensions in inches (TODO: Update to real dimensions)
 #define DRIVE_WHEEL_DIAMETER 3.25f

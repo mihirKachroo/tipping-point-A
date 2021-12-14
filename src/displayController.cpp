@@ -401,6 +401,30 @@ void DisplayController::setMode(DISPLAY_MODE mode) {
             break;
         }
 
+         // Display mode: Show statistics on screen (battery level, odom, etc)
+        case STATS: {
+            // Clear again to ensure proper overwrite
+            lv_obj_clean(scr);
+            scr = lv_page_create(NULL, NULL);
+            lv_scr_load(scr);
+
+            // Battery 
+            char batteryString[15];
+            sprintf(batteryString, "Battery: %2.0f%%", pros::battery::get_capacity());
+            renderLabel(batteryString, 20, 10, scr);
+
+            // Tracking data
+            char trackingString[100];
+            sprintf(trackingString, "X: %f\nY: %f\nA: %f\n", trackingData.getPos().getX(), trackingData.getPos().getY(), radToDeg(trackingData.getHeading()));
+            renderLabel(trackingString, 20, 60, scr);
+        
+            
+            char myForkliftPos[50];
+            sprintf(myForkliftPos, "Forklift: %f", forklift.getPower()); 
+            renderLabel(myForkliftPos, 20, 60, scr);
+            break;
+        }
+
         // Debug mode: First and only mode to be run
         case DEBUG: {
             // Create the message list
