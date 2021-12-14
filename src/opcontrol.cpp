@@ -39,6 +39,11 @@ void myOpControl() {
         // Forklift mapped to right joystick up and down
         int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
 
+        // Fix deadzone issue
+        if (abs(forkliftSpeed) < 30) {
+            forkliftSpeed = 0;
+        }
+
         // Forklift mapped to right joystick
         /*while (forkliftEnc.get_value() < 200) {
             // Forklift will only move up while it is less than 200 ticks
