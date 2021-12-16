@@ -13,7 +13,7 @@ PIDInfo::PIDInfo(double p, double i, double d) {
 };
 
 
-PIDController::PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance/*bool useTolerance*/) {
+PIDController::PIDController(double target, PIDInfo constants, double tolerance, double integralTolerance) {
     // Set local variables to object vars
     this->target = target;
     this->lastError = DBL_MAX;

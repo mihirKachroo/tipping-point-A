@@ -11,14 +11,20 @@
 
 #include "driveSystems/drivetrainPID.h"
 
+/*
+Notes:
+    - Ports 10 and 20 are dead
+*/
+
+
 // Motor pin numbers
 #define TL_PORT 1
 #define TR_PORT 9
-#define BL_PORT 11
-#define BR_PORT 20
+#define BL_PORT 15
+#define BR_PORT 19
 
-#define INTAKE_PORT 2
-#define FORKLIFT_PORT 15
+#define INTAKE_PORT 12
+#define FORKLIFT_PORT 11
 
 // Encoder pin numbers
 #define BENC_PORT_TOP 5

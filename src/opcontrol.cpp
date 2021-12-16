@@ -35,21 +35,41 @@ void myOpControl() {
          // Intake mapped to right shoulder buttons
         int intakeUp = masterController.get_digital(DIGITAL_R1);
         int intakeDown = masterController.get_digital(DIGITAL_R2);
+        
+        // Forklift mapped to right joystick up and down
+        int forkliftSpeed;
+        int forkliftState = -(masterController.get_analog(ANALOG_RIGHT_Y));
 
         // Forklift mapped to right joystick up and down
-        int forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
-
-        // Fix deadzone issue
+        if (forkliftEnc.get_value() < 40) {
+            // Forklift will only move up while it is less than 200 ticks
+            forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
+        }
+        else if (forkliftEnc.get_value() >= 40 && forkliftState > 0) {
+            forkliftSpeed = 0;
+        }
+        else if (forkliftEnc.get_value() >= 40 && forkliftState < 0) {
+            forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
+        }
+        
+        /*
+        float forkliftUp = masterController.get_digital(DIGITAL_L1);
+        
+        if (forkliftUp) {
+            if (forkliftEnc.get_value() < 30) {
+                forklift.setPower(-0.01);
+            }
+            else if (forkliftEnc.get_value() >= 30) {
+                forklift.setPower(0);
+            }
+        }
+        */
+        // Fix deadzone issue, value might need tuning
         if (abs(forkliftSpeed) < 30) {
             forkliftSpeed = 0;
         }
 
-        // Forklift mapped to right joystick
-        /*while (forkliftEnc.get_value() < 200) {
-            // Forklift will only move up while it is less than 200 ticks
-            forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
-        }
-        */
+       // Macros are set to up and down buttons
         int intakeMacroCW = masterController.get_digital_new_press(DIGITAL_UP);
         int intakeMacroCCW = masterController.get_digital_new_press(DIGITAL_DOWN);
 

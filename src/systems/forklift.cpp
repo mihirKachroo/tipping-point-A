@@ -41,12 +41,12 @@ void Forklift::setPower(int power) {
 void Forklift::update() {
     if (manualPower == 0) {
         // Retain position if manual power not being applied with custom PID loop
-        double speed = pidController->step(this->forkliftMotor->get_position()/*forkliftEnc.get_value()*/);
+        double speed = pidController->step(this->forkliftMotor->get_position());
         this->forkliftMotor->move(speed);
         printf("Retaining power...\n");
     } else {
         // Update target to be current position
-        this->pidController->target = this->forkliftMotor->get_position()/*forkliftEnc.get_value()*/;
+        this->pidController->target = this->forkliftMotor->get_position();
     }
 }
 
@@ -79,7 +79,7 @@ bool Forklift::changeState(uint8_t newState) {
         }
         case DISABLED_STATE: {
             // Stop motors & leave limp
-            this->forkliftMotor->set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+            this->forkliftMotor->set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
             this->forkliftMotor = 0;
             break;
         }

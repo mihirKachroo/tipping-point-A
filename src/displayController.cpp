@@ -227,7 +227,9 @@ void DisplayController::setMode(DISPLAY_MODE mode) {
     this->mode = mode;
 
     // Clean the screen
-    lv_obj_clean(scr);
+    if (scr) {
+        lv_obj_clean(scr);
+    }
 
     // Create and load a new page
     scr = lv_page_create(NULL, NULL);
@@ -409,20 +411,23 @@ void DisplayController::setMode(DISPLAY_MODE mode) {
             lv_scr_load(scr);
 
             // Battery 
+            
             char batteryString[15];
             sprintf(batteryString, "Battery: %2.0f%%", pros::battery::get_capacity());
             renderLabel(batteryString, 20, 10, scr);
-
+            
+            /*
             // Tracking data
             char trackingString[100];
             sprintf(trackingString, "X: %f\nY: %f\nA: %f\n", trackingData.getPos().getX(), trackingData.getPos().getY(), radToDeg(trackingData.getHeading()));
             renderLabel(trackingString, 20, 60, scr);
-        
-            
+            */
             char myForkliftPos[50];
-            sprintf(myForkliftPos, "Forklift: %f", forklift.getPower()); 
+            sprintf(myForkliftPos, "Forklift: %d", forkliftEnc.get_value()); 
             renderLabel(myForkliftPos, 20, 60, scr);
+
             break;
+            
         }
 
         // Debug mode: First and only mode to be run

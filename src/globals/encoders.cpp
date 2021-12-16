@@ -6,4 +6,4 @@ pros::ADIEncoder bEnc(BENC_PORT_TOP, BENC_PORT_BOT, true);
 pros::ADIEncoder lEnc(LENC_PORT_TOP, LENC_PORT_BOT, false);
 pros::ADIEncoder rEnc(RENC_PORT_TOP, RENC_PORT_BOT, true);
 
-pros::ADIEncoder forkliftEnc(FORKLIFT_PORT_TOP, FORKLIFT_PORT_BOT, true);
+pros::ADIEncoder forkliftEnc(FORKLIFT_PORT_TOP, FORKLIFT_PORT_BOT, false);
