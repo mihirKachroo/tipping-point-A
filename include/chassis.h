@@ -11,6 +11,13 @@
 
 #include "driveSystems/drivetrainPID.h"
 
+/*
+
+Notes:
+    - Ports 10 and 20 are dead
+
+*/
+
 // Motor pin numbers
 #define TL_PORT 1
 #define TR_PORT 9
