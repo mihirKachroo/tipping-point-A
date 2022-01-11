@@ -41,14 +41,14 @@ void myOpControl() {
         int forkliftState = -(masterController.get_analog(ANALOG_RIGHT_Y));
 
         // Forklift mapped to right joystick up and down
-        if (forkliftEnc.get_value() < 40) {
+        if (forkliftEnc.get_value() < 45) {
             // Forklift will only move up while it is less than 200 ticks
             forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
         }
-        else if (forkliftEnc.get_value() >= 40 && forkliftState > 0) {
+        else if (forkliftEnc.get_value() >= 45 && forkliftState > 0) {
             forkliftSpeed = 0;
         }
-        else if (forkliftEnc.get_value() >= 40 && forkliftState < 0) {
+        else if (forkliftEnc.get_value() >= 45 && forkliftState < 0) {
             forkliftSpeed = -(masterController.get_analog(ANALOG_RIGHT_Y));
         }
         
