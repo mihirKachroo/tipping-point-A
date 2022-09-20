@@ -8,9 +8,17 @@ A VEX Pros V5 project that serves as a base project with common algorithms and c
 ## Platform
 This code is for VEX V5 systems only.
 
+## Requirements
+- PROS v3.4.0
+- OkapiLib v4.1.0
+
 ## Compilation
-1. Clean the binaries if any headers have been changed: `prosv5 make clean`
-2. Build the project: `prosv5 make`
+1. Clean the binaries if any headers have been changed  
+`prosv5 make clean`
+2. Build the project  
+`prosv5 make`
+3. Upload with either the V5 Controller or Brain plugged in via USB  
+`prosv5 upload`
 
 ## Documentation
 Documentation for the project can be found [here](https://aritrosaha10.github.io/bootstrapped-vex-v5/).
