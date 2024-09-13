@@ -1,5 +1,5 @@
-# Bootstrapped VEX Pros V5 Project
-A VEX Pros V5 project that serves as a base project with common algorithms and control systems implemented, such as odometry, PID, and more.
+# VEX Pros V5 Project
+JFSS's VEX Pros V5 project.
 
 [![CI](https://github.com/AritroSaha10/bootstrapped-vex-v5/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/AritroSaha10/bootstrapped-vex-v5/actions/workflows/main.yml)
 
